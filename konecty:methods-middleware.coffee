@@ -4,6 +4,8 @@ Middlewares = {}
 BeforeMethods = {}
 AfterMethods = {}
 
+# Meteor.registerLogs = true
+# Meteor.registerVerboseLogs = true
 
 formatJsonWithPrefixAndColor = (value, prefix, color) ->
 	value = JSON.stringify value, null, '  '
@@ -18,7 +20,14 @@ removeInternalProperties = (value) ->
 
 
 logBeforeExecution = (methodName, scope, args) ->
-	console.log "#{methodName} [will call]".cyan
+	if Meteor.registerLogs isnt true
+		return
+
+	console.log "#{methodName}".cyan
+
+	if Meteor.registerVerboseLogs isnt true
+		return
+
 	if scope?
 		console.log '  > SCOPE'.cyan
 		console.log formatJsonWithPrefixAndColor removeInternalProperties(scope), '  | ', 'cyan'
@@ -27,16 +36,23 @@ logBeforeExecution = (methodName, scope, args) ->
 		console.log formatJsonWithPrefixAndColor args, '  | ', 'cyan'
 
 logAfterExecution = (methodName, scope, args, result) ->
-	console.log "#{methodName} [called]".magenta
+	if Meteor.registerLogs isnt true
+		return
+
+	console.log "#{methodName} [done]".cyan
+
+	if Meteor.registerVerboseLogs isnt true
+		return
+
 	if scope?
-		console.log '  > SCOPE'.magenta
-		console.log formatJsonWithPrefixAndColor removeInternalProperties(scope), '  | ', 'magenta'
+		console.log '  > SCOPE'.cyan
+		console.log formatJsonWithPrefixAndColor removeInternalProperties(scope), '  | ', 'cyan'
 	if args?
-		console.log '  > ARGUMENTS'.magenta
-		console.log formatJsonWithPrefixAndColor args, '  | ', 'magenta'
+		console.log '  > ARGUMENTS'.cyan
+		console.log formatJsonWithPrefixAndColor args, '  | ', 'cyan'
 	if result?
-		console.log '  > RESULT'.magenta
-		console.log formatJsonWithPrefixAndColor args, '  | ', 'magenta'
+		console.log '  > RESULT'.cyan
+		console.log formatJsonWithPrefixAndColor args, '  | ', 'cyan'
 
 processResult = (result) ->
 	if _.isObject(result) and _.isFunction(result.fetch)
