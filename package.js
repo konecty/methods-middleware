@@ -1,8 +1,8 @@
 Package.describe({
   name: 'konecty:methods-middleware',
   summary: 'Add more power to Meteor.methods with methods-middleware',
-  version: '1.0.0',
-  git: 'https://github.com/nooitaf/meteor-colors.git'
+  version: '1.0.1',
+  git: 'https://github.com/Konecty/methods-middleware.git'
 });
 
 Package.onUse(function(api) {
