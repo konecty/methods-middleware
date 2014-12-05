@@ -9,7 +9,7 @@ Package.onUse(function(api) {
   api.versionsFrom('1.0');
   api.use('coffeescript');
   api.use('nooitaf:colors');
-  api.addFiles('konecty:methods-middleware.coffee');
+  api.addFiles('konecty:methods-middleware.coffee', ['server']);
 });
 
 Package.onTest(function(api) {
