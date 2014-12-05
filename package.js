@@ -1,14 +1,14 @@
 Package.describe({
   name: 'konecty:methods-middleware',
-  summary: ' /* Fill me in! */ ',
+  summary: 'Add more power to Meteor.methods with methods-middleware',
   version: '1.0.0',
-  git: ' /* Fill me in! */ '
+  git: 'https://github.com/nooitaf/meteor-colors.git'
 });
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0');
   api.use('coffeescript');
-  api.use('nooitaf:colors');
+  api.use('nooitaf:colors@1.0.3');
   api.addFiles('konecty:methods-middleware.coffee', ['server']);
 });
 
