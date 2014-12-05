@@ -29,11 +29,11 @@ logBeforeExecution = (methodName, scope, args) ->
 		return
 
 	if scope?
-		console.log '  > SCOPE'.cyan
-		console.log formatJsonWithPrefixAndColor removeInternalProperties(scope), '  | ', 'cyan'
+		console.log '   > SCOPE'.grey
+		console.log formatJsonWithPrefixAndColor removeInternalProperties(scope), '   | ', 'grey'
 	if args?
-		console.log '  > ARGUMENTS'.cyan
-		console.log formatJsonWithPrefixAndColor args, '  | ', 'cyan'
+		console.log '   > ARGUMENTS'.grey
+		console.log formatJsonWithPrefixAndColor args, '   | ', 'grey'
 
 logAfterExecution = (methodName, scope, args, result) ->
 	if Meteor.registerLogs isnt true
@@ -45,14 +45,14 @@ logAfterExecution = (methodName, scope, args, result) ->
 		return
 
 	if scope?
-		console.log '  > SCOPE'.cyan
-		console.log formatJsonWithPrefixAndColor removeInternalProperties(scope), '  | ', 'cyan'
+		console.log '   > SCOPE'.grey
+		console.log formatJsonWithPrefixAndColor removeInternalProperties(scope), '   | ', 'grey'
 	if args?
-		console.log '  > ARGUMENTS'.cyan
-		console.log formatJsonWithPrefixAndColor args, '  | ', 'cyan'
+		console.log '   > ARGUMENTS'.grey
+		console.log formatJsonWithPrefixAndColor args, '   | ', 'grey'
 	if result?
-		console.log '  > RESULT'.cyan
-		console.log formatJsonWithPrefixAndColor args, '  | ', 'cyan'
+		console.log '   > RESULT'.grey
+		console.log formatJsonWithPrefixAndColor processResult(result), '   | ', 'grey'
 
 processResult = (result) ->
 	if _.isObject(result) and _.isFunction(result.fetch)
@@ -98,37 +98,38 @@ Meteor.registerMethod = (name, middlewareNames..., mainMethod) ->
 			__methodName__: name
 
 		for beforeMethodName, beforeMethod of BeforeMethods
-			logBeforeExecution beforeMethodName, scope, arguments
+			logBeforeExecution "<- #{name} - #{beforeMethodName}", scope, arguments
 			result = beforeMethod.apply scope, arguments
-			logAfterExecution beforeMethodName, scope, arguments, result
+			logAfterExecution "<- #{name} - #{beforeMethodName}", scope, arguments, result
 			if result?
 				return processResult result
 
 		for middlewareName, middleware of middlewares
-			logBeforeExecution middlewareName, scope, arguments
+			logBeforeExecution "<> #{name} - #{middlewareName}", scope, arguments
 			result = middleware.apply scope, arguments
-			logAfterExecution middlewareName, scope, arguments, result
+			logAfterExecution "<> #{name} - #{middlewareName}", scope, arguments, result
 			if result?
 				return processResult result
 
-		logBeforeExecution name, scope, arguments
+		logBeforeExecution "   #{name}", scope, arguments
 		result = mainMethod.apply scope, arguments
-		logAfterExecution name, scope, arguments, result
+		result = processResult result
+		logAfterExecution "   #{name}", scope, arguments, result
 
 		for afterMethodName, afterMethod of AfterMethods
 			afterMethodParams =
 				result: result
 				arguments: arguments
 
-			logBeforeExecution afterMethodName, scope, afterMethodParams
+			logBeforeExecution "-> #{name} - #{afterMethodName}", scope, afterMethodParams
 			afterMethodResult = afterMethod.call scope, afterMethodParams
-			logAfterExecution afterMethodName, scope, afterMethodParams
+			logAfterExecution "-> #{name} - #{afterMethodName}", scope, afterMethodParams
 
 			result = afterMethodParams.result
 
 			if afterMethodResult?
-				return processResult result
+				return result
 
-		return processResult result
+		return result
 
 	Meteor.methods meteorMethods
