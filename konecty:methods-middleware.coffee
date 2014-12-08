@@ -5,6 +5,7 @@ BeforeMethods = {}
 AfterMethods = {}
 
 # Meteor.registerLogs = true
+# Meteor.registerDoneLogs = true
 # Meteor.registerVerboseLogs = true
 
 formatJsonWithPrefixAndColor = (value, prefix, color) ->
@@ -36,7 +37,7 @@ logBeforeExecution = (methodName, scope, args) ->
 		console.log formatJsonWithPrefixAndColor args, '   | ', 'grey'
 
 logAfterExecution = (methodName, scope, args, result) ->
-	if Meteor.registerLogs isnt true
+	if Meteor.registerDoneLogs isnt true
 		return
 
 	console.log "#{methodName} [done]".cyan

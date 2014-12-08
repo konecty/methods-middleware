@@ -1,4 +1,5 @@
 Meteor.registerLogs = true
+Meteor.registerDoneLogs = true
 Meteor.registerVerboseLogs = true
 
 # Before methods
