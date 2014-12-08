@@ -15,5 +15,7 @@ Package.onUse(function(api) {
 Package.onTest(function(api) {
   api.use('tinytest');
   api.use('konecty:methods-middleware');
-  api.addFiles('konecty:methods-middleware-tests.js');
+  api.use('coffeescript');
+  api.use('nooitaf:colors@0.0.2');
+  api.addFiles('konecty:methods-middleware-tests.coffee');
 });
