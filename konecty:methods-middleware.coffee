@@ -52,7 +52,10 @@ logAfterExecution = (methodName, scope, args, result) ->
 		console.log formatJsonWithPrefixAndColor args, '   | ', 'grey'
 	if result?
 		console.log '   > RESULT'.grey
-		console.log formatJsonWithPrefixAndColor processResult(result), '   | ', 'grey'
+		if result instanceof Error
+			console.log '   |'.grey, result.toString().red
+		else
+			console.log formatJsonWithPrefixAndColor processResult(result), '   | ', 'grey'
 
 processResult = (result) ->
 	if _.isObject(result) and _.isFunction(result.fetch)
