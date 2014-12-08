@@ -104,14 +104,14 @@ Meteor.registerMethod = (name, middlewareNames..., mainMethod) ->
 			logBeforeExecution "<- #{name} - #{beforeMethodName}", scope, arguments
 			result = beforeMethod.apply scope, arguments
 			logAfterExecution "<- #{name} - #{beforeMethodName}", scope, arguments, result
-			if result?
+			if result isnt undefined
 				return processResult result
 
 		for middlewareName, middleware of middlewares
 			logBeforeExecution "<> #{name} - #{middlewareName}", scope, arguments
 			result = middleware.apply scope, arguments
 			logAfterExecution "<> #{name} - #{middlewareName}", scope, arguments, result
-			if result?
+			if result isnt undefined
 				return processResult result
 
 		logBeforeExecution "   #{name}", scope, arguments
@@ -130,8 +130,8 @@ Meteor.registerMethod = (name, middlewareNames..., mainMethod) ->
 
 			result = afterMethodParams.result
 
-			if afterMethodResult?
-				return result
+			if afterMethodResult isnt undefined
+				return afterMethodResult
 
 		return result
 
