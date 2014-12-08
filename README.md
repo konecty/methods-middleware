@@ -12,6 +12,16 @@ With this package you can register methods that will be registered as native Met
 
 --
 
+## Execution Pipeline
+- Execute all before methods
+- Execute middlewares registered for called method
+- Execute called method
+- Execute all after methods
+
+** If MIDLEWARES or BEFORE METHODS returns something different from UNDEFINED the execution stops and return this value!
+
+--
+
 ## Regular Methods
 Register a method named **sum**
 ```javascript
@@ -49,4 +59,25 @@ Meteor.registerMethod('sum', 'toNumber', function(a, b) {
 Call registered method **sum** passing strings that will be converted by middleware
 ```javascript
 Meteor.call('sum', '2', '3');
+```
+
+# Before and After Methods
+You can register methods to be executed before and after **all** methods registered with **registerMethod**.
+In the above example we are tracking execution time and logging to console.
+
+This method will be executed before every method call and will put in context the date and time from the begining of the execution
+```javascript
+Meteor.registerBeforeMethod('startTimer', function() {
+  this.startedAt = new Date();
+  return
+});
+```
+
+This method will be executed after every method call and will get the date time saved in context to calculate the execution time and log to console
+```javascript
+Meteor.registerAfterMethod('endTimer', function(a, b) {
+  var now = new Date();
+  console.log('Time: ' + (now.getTime() - this.startedAt.getTime()));
+  return
+});
 ```
