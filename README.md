@@ -38,7 +38,7 @@ Meteor.call('sum', 2, 3);
 
 ## Methods with Middlewares
 Register a new middleware to convert arguments to number and pass to method via context
-```jasvascript
+```javascript
 Meteor.registerMiddleware('toNumber', function() {
   var args = Array.prototype.slice.apply(arguments);
 
