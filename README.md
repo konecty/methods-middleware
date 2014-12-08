@@ -10,7 +10,10 @@ With this package you can register methods that will be registered as native Met
 - Register **middlewares** and **only reference** them when register methods to be executed before this method;
 - Add methods to be executed **before** and **after all** your methods registered with **registerMethod**;
 
---
+## Installation
+```sell
+meteor add konecty:methods-middleware
+```
 
 ## Execution Pipeline
 - Execute all before methods
@@ -18,9 +21,7 @@ With this package you can register methods that will be registered as native Met
 - Execute called method
 - Execute all after methods
 
-** If MIDLEWARES or BEFORE METHODS returns something different from UNDEFINED the execution stops and return this value!
-
---
+**If MIDLEWARES or BEFORE METHODS returns something different from UNDEFINED the execution stops and return this value!**
 
 ## Regular Methods
 Register a method named **sum**
