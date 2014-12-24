@@ -98,8 +98,8 @@ Meteor.registerMethod = (name, middlewareNames..., mainMethod) ->
 
 	meteorMethods = {}
 	meteorMethods[name] = ->
-		scope =
-			__methodName__: name
+		scope = @
+		scope.__methodName__ = name
 
 		for beforeMethodName, beforeMethod of BeforeMethods
 			logBeforeExecution "<- #{name} - #{beforeMethodName}", scope, arguments
