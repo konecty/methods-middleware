@@ -97,9 +97,12 @@ Meteor.registerMethod = (name, middlewareNames..., mainMethod) ->
 			middlewares[middlewareName] = middleware
 
 	meteorMethods = {}
-	meteorMethods[name] = ->
+	meteorMethods[name] = (args..., lastArgument) ->
 		scope = @
 		scope.__methodName__ = name
+
+		if @connection is null and _.isObject(lastArgument) and _.isObject(lastArgument.__scope__)
+			scope[key] = value for key, value of lastArgument.__scope__ when not scope[key]?
 
 		for beforeMethodName, beforeMethod of BeforeMethods
 			logBeforeExecution "<- #{name} - #{beforeMethodName}", scope, arguments
