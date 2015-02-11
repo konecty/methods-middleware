@@ -104,11 +104,29 @@ Meteor.registerMethod = (name, middlewareNames..., mainMethod) ->
 		if @connection is null and _.isObject(lastArgument) and _.isObject(lastArgument.__scope__)
 			scope[key] = value for key, value of lastArgument.__scope__ when not scope[key]?
 
+		processAfterMethods = (result, args) ->
+			for afterMethodName, afterMethod of AfterMethods
+				afterMethodParams =
+					result: result
+					arguments: args
+
+				logBeforeExecution "-> #{name} - #{afterMethodName}", scope, afterMethodParams
+				afterMethodResult = afterMethod.call scope, afterMethodParams
+				logAfterExecution "-> #{name} - #{afterMethodName}", scope, afterMethodParams
+
+				result = afterMethodParams.result
+
+				if afterMethodResult isnt undefined
+					return afterMethodResult
+
+				return result
+
 		for beforeMethodName, beforeMethod of BeforeMethods
 			logBeforeExecution "<- #{name} - #{beforeMethodName}", scope, arguments
 			result = beforeMethod.apply scope, arguments
 			logAfterExecution "<- #{name} - #{beforeMethodName}", scope, arguments, result
 			if result isnt undefined
+				result = processAfterMethods result, arguments
 				return processResult result
 
 		for middlewareName, middleware of middlewares
@@ -116,6 +134,7 @@ Meteor.registerMethod = (name, middlewareNames..., mainMethod) ->
 			result = middleware.apply scope, arguments
 			logAfterExecution "<> #{name} - #{middlewareName}", scope, arguments, result
 			if result isnt undefined
+				result = processAfterMethods result, arguments
 				return processResult result
 
 		logBeforeExecution "   #{name}", scope, arguments
@@ -123,20 +142,7 @@ Meteor.registerMethod = (name, middlewareNames..., mainMethod) ->
 		result = processResult result
 		logAfterExecution "   #{name}", scope, arguments, result
 
-		for afterMethodName, afterMethod of AfterMethods
-			afterMethodParams =
-				result: result
-				arguments: arguments
-
-			logBeforeExecution "-> #{name} - #{afterMethodName}", scope, afterMethodParams
-			afterMethodResult = afterMethod.call scope, afterMethodParams
-			logAfterExecution "-> #{name} - #{afterMethodName}", scope, afterMethodParams
-
-			result = afterMethodParams.result
-
-			if afterMethodResult isnt undefined
-				return afterMethodResult
-
+		result = processAfterMethods result, arguments
 		return result
 
 	Meteor.methods meteorMethods
