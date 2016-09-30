@@ -17,6 +17,6 @@ Package.onTest(function(api) {
   api.use('tinytest');
   api.use('konecty:methods-middleware');
   api.use('coffeescript');
-  api.use('nooitaf:colors@0.0.2');
+  api.use('nooitaf:colors@1.1.2_1');
   api.addFiles('konecty:methods-middleware-tests.coffee');
 });
