@@ -1,7 +1,7 @@
 Package.describe({
   name: 'konecty:methods-middleware',
   summary: 'Add more power to Meteor.methods with methods-middleware',
-  version: '1.2.1',
+  version: '1.2.2',
   git: 'https://github.com/Konecty/methods-middleware.git'
 });
 
@@ -18,5 +18,5 @@ Package.onTest(function(api) {
   api.use('konecty:methods-middleware');
   api.use('coffeescript');
   api.use('nooitaf:colors@1.1.2_1');
-  api.addFiles('konecty:methods-middleware-tests.coffee');
+  api.addFiles('konecty:methods-middleware-tests.coffee', 'server');
 });
