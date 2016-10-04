@@ -1,7 +1,7 @@
 Package.describe({
   name: 'konecty:methods-middleware',
   summary: 'Add more power to Meteor.methods with methods-middleware',
-  version: '1.2.2_1',
+  version: '1.2.3',
   git: 'https://github.com/Konecty/methods-middleware.git'
 });
 
