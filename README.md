@@ -1,4 +1,6 @@
-# Konecty Methods Middleware
+# Methods Middleware
+
+**fork of Konecty Methods Middleware**
 
 Add more power to Meteor.methods with methods-middleware
 
@@ -12,7 +14,7 @@ With this package you can register methods that will be registered as native Met
 
 ## Installation
 ```sell
-meteor add konecty:methods-middleware
+meteor add sbborders:methods-middleware
 ```
 
 ## Execution Pipeline

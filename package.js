@@ -1,22 +1,24 @@
 Package.describe({
-  name: 'konecty:methods-middleware',
+  name: 'sbborders:methods-middleware',
   summary: 'Add more power to Meteor.methods with methods-middleware',
-  version: '1.2.4',
-  git: 'https://github.com/Konecty/methods-middleware.git'
+  version: '2.0.0',
+  git: 'https://github.com/sbborders/methods-middleware.git'
 });
 
 Package.onUse(function(api) {
   api.versionsFrom('1.2');
-  api.use('coffeescript');
-  api.use('underscore');
-  api.use('nooitaf:colors@1.1.2_1');
-  api.addFiles('konecty:methods-middleware.coffee', 'server');
+  api.use([
+    'ecmascript',
+    'nooitaf:colors@1.2.0'
+  ]);
+  api.addFiles('methods-middleware.js', 'server');
 });
 
 Package.onTest(function(api) {
-  api.use('tinytest');
-  api.use('konecty:methods-middleware');
-  api.use('coffeescript');
-  api.use('nooitaf:colors@1.1.2_1');
-  api.addFiles('konecty:methods-middleware.test.coffee', 'server');
+  api.use([
+    'tinytest',
+    'sbborders:methods-middleware',
+    'nooitaf:colors@1.2.0'
+  ]);
+  api.addFiles('methods-middleware.test.js', 'server');
 });
